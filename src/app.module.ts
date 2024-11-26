@@ -3,16 +3,20 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppUserModule } from './app_user/app_user.module';
-// import { join } from 'path';
 import { AppUser } from './app_user/entities/app_user.entity';
+import * as dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config({ path: './.env' });
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: 'postgresql://neondb_owner:qtfd6D7ineCZ@ep-bold-glitter-a5i47gzw.us-east-2.aws.neon.tech/skill?sslmode=require',
+      url: `${process.env.DB_CONNECTION}`, // Make sure the environment variable is set in .env
       entities: [AppUser],
-      // synchronize: true,
+      // synchronize: process.env.NODE_ENV === 'development',  // Only use synchronize in dev environment
+      // logging: process.env.NODE_ENV === 'development',      // Optional: logs queries for debugging in dev
     }),
     AppUserModule,
   ],
