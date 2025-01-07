@@ -10,13 +10,16 @@ import {
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { ID } from 'node-appwrite';
 import { AppwriteService } from 'src/appwrite/appwrite.service';
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env' });
 
 @Controller('skills')
 export class SkillsController {
-  private readonly databaseId = '67542bcb00025daa7449';
-  private collectionId = '67542cfe0005efa451ae';
+  private readonly databaseId = process.env.DATABASE_ID;
+  private collectionId = process.env.SKILLS_COLLECTION_ID;
   private documentId = ID.unique();
-  constructor(private readonly appwriteService: AppwriteService) {}
+  constructor(private readonly appwriteService: AppwriteService) { }
 
   @Post()
   create(@Body() createSkillDto: CreateSkillDto) {

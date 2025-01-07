@@ -14,13 +14,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 import { AppwriteService } from '../appwrite/appwrite.service';
 import { ID } from 'node-appwrite';
+const dotenv = require('dotenv');
 
+dotenv.config({ path: './.env' });
 @Controller('users')
 export class UserController {
-  private readonly databaseId = '67542bcb00025daa7449';
-  private collectiond = '67542bef0037f6fe0ae4';
+  private readonly databaseId = process.env.DATABASE_ID;
+  private collectiond = process.env.USER_COLLECTION_ID;
   private documentId = ID.unique();
-  constructor(private readonly appwriteService: AppwriteService) {}
+  constructor(private readonly appwriteService: AppwriteService) { }
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {

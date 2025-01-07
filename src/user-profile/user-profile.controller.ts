@@ -12,13 +12,15 @@ import { ID } from 'node-appwrite';
 import { AppwriteService } from 'src/appwrite/appwrite.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
+const dotenv = require('dotenv');
 
+dotenv.config({ path: './.env' });
 @Controller('user-profile')
 export class UserProfileController {
-  private readonly databaseId = '67542bcb00025daa7449';
-  private collectiond = '67543258002526125593';
+  private readonly databaseId = process.env.DATABASE_ID;
+  private collectiond = process.env.USER_PROFILE_COLLECTION_ID;
   private documentId = ID.unique();
-  constructor(private readonly appwriteService: AppwriteService) {}
+  constructor(private readonly appwriteService: AppwriteService) { }
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
