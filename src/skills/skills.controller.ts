@@ -16,7 +16,7 @@ export class SkillsController {
   private readonly databaseId = '67542bcb00025daa7449';
   private collectionId = '67542cfe0005efa451ae';
   private documentId = ID.unique();
-  constructor(private readonly appwriteService: AppwriteService) { }
+  constructor(private readonly appwriteService: AppwriteService) {}
 
   @Post()
   create(@Body() createSkillDto: CreateSkillDto) {

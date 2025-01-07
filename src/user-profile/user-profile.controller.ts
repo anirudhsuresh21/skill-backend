@@ -5,20 +5,18 @@ import {
   Body,
   Query,
   Param,
-  // Patch,
-  // Param,
-  // Delete,
+  Patch,
+  Delete,
 } from '@nestjs/common';
-// import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-// import { UpdateUserDto } from './dto/update-user.dto';
-import { AppwriteService } from '../appwrite/appwrite.service';
 import { ID } from 'node-appwrite';
+import { AppwriteService } from 'src/appwrite/appwrite.service';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 
-@Controller('users')
-export class UserController {
+@Controller('user-profile')
+export class UserProfileController {
   private readonly databaseId = '67542bcb00025daa7449';
-  private collectiond = '67542bef0037f6fe0ae4';
+  private collectiond = '67543258002526125593';
   private documentId = ID.unique();
   constructor(private readonly appwriteService: AppwriteService) {}
 
@@ -27,18 +25,22 @@ export class UserController {
     await this.appwriteService.createDocument(
       this.databaseId,
       this.collectiond,
-      this.documentId,
+      ID.unique(),
       createUserDto,
     );
   }
 
   @Get()
-  findAll() {
-    return this.appwriteService.listDocuments(
+  async findAll() {
+    const result = await this.appwriteService.listDocuments(
       this.databaseId,
       this.collectiond,
+      // this.documentId,
       [],
     );
+
+    // Extract only the 'documents' field from the response
+    return result.documents; // Return only the documents array
   }
 
   @Get()
@@ -62,13 +64,22 @@ export class UserController {
     );
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    await this.appwriteService.updateDocument(
+      this.databaseId,
+      this.collectiond,
+      id,
+      updateUserDto,
+    );
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    await this.appwriteService.deleteDocument(
+      this.databaseId,
+      this.collectiond,
+      id,
+    );
+  }
 }

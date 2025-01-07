@@ -7,4 +7,4 @@ import { AppwriteService } from 'src/appwrite/appwrite.service';
   controllers: [SkillsController],
   providers: [AppwriteService],
 })
-export class SkillsModule { }
+export class SkillsModule {}

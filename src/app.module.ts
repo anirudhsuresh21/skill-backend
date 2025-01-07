@@ -10,6 +10,8 @@ import * as dotenv from 'dotenv';
 import { UserModule } from './user/user.module';
 import { SkillsController } from './skills/skills.controller';
 import { SkillsModule } from './skills/skills.module';
+import { UserProfileController } from './user-profile/user-profile.controller';
+import { AppwriteBucketController } from './appwrite-bucket/appwrite-bucket.controller';
 
 // Load environment variables from .env file
 dotenv.config({ path: './.env' });
@@ -27,7 +29,12 @@ dotenv.config({ path: './.env' });
     UserModule,
     SkillsModule,
   ],
-  controllers: [AppController, SkillsController],
+  controllers: [
+    AppController,
+    SkillsController,
+    UserProfileController,
+    AppwriteBucketController,
+  ],
   providers: [AppService, AppwriteService],
   exports: [AppwriteService],
 })
